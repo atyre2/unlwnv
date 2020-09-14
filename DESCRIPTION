@@ -10,7 +10,9 @@ Authors@R:
        person(given = "Kelly",
            family = "Smith",
            role = c("aut"),
-           email = "ksmith2@unl.edu"))
+           email = "ksmith2@unl.edu"),
+       person("Alexander Sasha","Keyel", role = c("ctb"), 
+           email = "akeyel@albany.edu"))
 Description: Analyzes inter-annual West Nile Virus (WNV) case counts at the county scale using distributed lag models and drought indexes. The package is designed to interface with other analysis packages in the WNV model intercomparison project.
 License: MIT + file LICENSE
 Suggests: 
