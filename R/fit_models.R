@@ -23,7 +23,7 @@
 fit_models <- function(x, path_2_case_data = here::here("data-raw/wnv_by_county.csv"),
                        case_type = c("neuro", "all"),
                        case_variable = "cases"){
-  if(is.null(x) | !is.data.frame(x) | !tibble::is.tibble(x)){
+  if(is.null(x) | !is.data.frame(x) | !tibble::is_tibble(x)){
     stop("x must be a data frame or tibble.")
   }
   if(!file.exists(path_2_case_data)){
