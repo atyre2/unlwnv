@@ -34,7 +34,7 @@ identify the year.
 
 The WNV case data cannot be posted publicly as a part of this package. This package
 assumes the case data are available in a subdirectory of the working directory
-called \code{data-raw}, which has rows
+called \code{data-raw}, in a file called \code{wnv_by_county.csv} which has rows
 identified by the same fips codes and a year variable. Case counts are assumed
 to be in a variable called "cases". There must be at least one row for each
 fips code in \code{x}.
