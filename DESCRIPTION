@@ -24,6 +24,7 @@ RoxygenNote: 7.1.1
 Imports: 
     wnvdata,
     dplyr,
-    readr
+    readr,
+    flmtools
 Depends: 
     R (>= 2.10)

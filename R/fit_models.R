@@ -12,7 +12,7 @@
 #'
 #' The WNV case data cannot be posted publicly as a part of this package. This package
 #' assumes the case data are available in a subdirectory of the working directory
-#' called `data-raw`, which has rows
+#' called `data-raw`, in a file called `wnv_by_county.csv` which has rows
 #' identified by the same fips codes and a year variable. Case counts are assumed
 #' to be in a variable called "cases". There must be at least one row for each
 #' fips code in `x`.
@@ -23,11 +23,6 @@
 fit_models <- function(x, path_2_case_data = here::here("data-raw/wnv_by_county.csv"),
                        case_type = c("neuro", "all"),
                        case_variable = "cases"){
-  if(is.null(x) | !is.data.frame(x) | !tibble::is_tibble(x)){
-    stop("x must be a data frame or tibble.")
-  }
-  if(!file.exists(path_2_case_data)){
-    stop("Please provide a valid path to the WNV case data.")
-  }
+  fit_data <- assemble_data(x, path_2_case_data, case_type, case_variable)
   return(list())
 }
