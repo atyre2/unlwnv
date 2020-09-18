@@ -22,7 +22,7 @@ test_that("data checks work", {
                              case_variable = "expected_cases"),
                "Some prediction targets have no matches in case data.")
   expect_error(assemble_data(x = sampledat, path_2_case_data = here::here("tests/testthat/data/missing_fips.csv")),
-               regexp = "^match variable \\S* not found in file")
+               regexp = "^match variable\\(s\\) \\S* not found in file")
   expect_error(assemble_data(x = sampledat, path_2_case_data = here::here("data-raw/predictionsthrough2018.csv"),
                              case_variable = "expected_cases",
                              case_type = "foobar"),
