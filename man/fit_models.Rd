@@ -8,6 +8,7 @@ fit_models(
   x,
   path_2_case_data = here::here("data-raw/wnv_by_county.csv"),
   case_type = c("neuro", "all"),
+  match_variable = "fips",
   case_variable = "cases"
 )
 }
@@ -17,6 +18,8 @@ fit_models(
 \item{path_2_case_data}{character file path to the case data}
 
 \item{case_type}{character type of case data}
+
+\item{match_variable}{character name of the field to match data on}
 
 \item{case_variable}{character name of the case field in the case data}
 }

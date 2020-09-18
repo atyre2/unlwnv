@@ -4,6 +4,7 @@
 #' @param path_2_case_data character file path to the case data
 #' @param case_type character type of case data
 #' @param case_variable character name of the case field in the case data
+#' @param match_variable character name of the field to match data on
 #'
 #' @details This function uses the rows in x to define the prediction
 #' targets for the models. There must be at least two fields, the 5 digit fips code
@@ -22,7 +23,11 @@
 #' @export
 fit_models <- function(x, path_2_case_data = here::here("data-raw/wnv_by_county.csv"),
                        case_type = c("neuro", "all"),
+                       match_variable = "fips",
                        case_variable = "cases"){
-  fit_data <- assemble_data(x, path_2_case_data, case_type, case_variable)
+  fit_data <- assemble_data(x = x, path_2_case_data = path_2_case_data,
+                            case_type = case_type,
+                            match_variable = match_variable,
+                            case_variable = case_variable)
   return(list())
 }

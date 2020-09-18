@@ -26,8 +26,16 @@ assemble_data <- function(x, path_2_case_data = here::here("data-raw/wnv_by_coun
     stop("Please provide a valid path to the WNV case data.")
   } else {
     wnvcases <- readr::read_csv(path_2_case_data)
-    mv1 <- eval(quote(match_variable), wnvcases)
-    mv2 <- eval(quote(match_variable), x)
+    if(!match_variable %in% names(wnvcases)){
+      stop(sprintf("match variable %s not found in file %s", match_variable, path_2_case_data))
+    }
+    if(!case_variable %in% names(wnvcases)){
+      stop(sprintf("case variable %s not found in file %s", case_variable, path_2_case_data))
+    }
+    if("fips" %in% names(wnvcases)){
+      # force fips to be 5 digit character
+      wnvcases[["fips"]] <- sprintf("%05d", as.numeric(wnvcases[["fips"]]))
+    }
     # check that all targets exist in case data
     missing_targets <- dplyr::anti_join(x, wnvcases, by = match_variable)
     if (nrow(missing_targets) > 0){
