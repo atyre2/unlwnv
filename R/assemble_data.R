@@ -17,8 +17,7 @@
 assemble_data <- function(x, path_2_case_data = here::here("data-raw/wnv_by_county.csv"),
                           case_type = c("neuro", "all"),
                           match_variable = "fips",
-                          case_variable = "cases"
-){
+                          case_variable = "cases"){
   if(is.null(x) | !(is.data.frame(x) | tibble::is_tibble(x))){
     stop("x must be a data frame or tibble.")
   }
@@ -42,5 +41,11 @@ assemble_data <- function(x, path_2_case_data = here::here("data-raw/wnv_by_coun
       stop("Some prediction targets have no matches in case data.")
     }
   }
-  return(wnvcases)
+  case_type = match.arg(case_type)
+
+  # bind census data
+  data(census.data, package = "wnvdata")
+  fit_data <- dplyr::left_join(wnvcases, census.data, by = c(match_variable, "year"))
+
+  return(fit_data)
 }

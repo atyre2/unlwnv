@@ -25,6 +25,7 @@ fit_models <- function(x, path_2_case_data = here::here("data-raw/wnv_by_county.
                        case_type = c("neuro", "all"),
                        match_variable = "fips",
                        case_variable = "cases"){
+  case_type = match.arg(case_type)
   fit_data <- assemble_data(x = x, path_2_case_data = path_2_case_data,
                             case_type = case_type,
                             match_variable = match_variable,
