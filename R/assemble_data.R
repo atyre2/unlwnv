@@ -10,6 +10,10 @@
 #' @param case_type character type of case data
 #' @param case_variable character name of the case field in the case data
 #' @param match_variable character name of the field to match data on
+#' @param measure character vector of variables to use for lagging
+#' @param nUnits integer number of units to lag backwards
+#' @param startUnit integer unit to start lagging from
+#' @param unit character name of the variable identifying the lag units
 #'
 #' @return a data.frame ready to estimate distributed lag models
 #' @export
@@ -17,7 +21,11 @@
 assemble_data <- function(x, path_2_case_data = here::here("data-raw/wnv_by_county.csv"),
                           case_type = c("neuro", "all"),
                           match_variable = "fips",
-                          case_variable = "cases"){
+                          case_variable = "cases",
+                          measure = NULL,
+                          nUnits = NULL,
+                          startUnit = NULL,
+                          unit = NULL){
   if(is.null(x) | !(is.data.frame(x) | tibble::is_tibble(x))){
     stop("x must be a data frame or tibble.")
   }
@@ -41,14 +49,22 @@ assemble_data <- function(x, path_2_case_data = here::here("data-raw/wnv_by_coun
     # check that all targets exist in case data
     missing_targets <- dplyr::anti_join(x, wnvcases, by = match_variable)
     if (nrow(missing_targets) > 0){
-      stop("Some prediction targets have no matches in case data.")
+      stop("Some prediction targets have no matches in case data. ")
     }
   }
   case_type = match.arg(case_type)
+  # check lag arguments
+  args <- as.list(environment())
+  nulls <- purrr::map_lgl(args, is.null)
+  if(any(nulls)){
+    stop(glue::glue("{paste(names(args[nulls]), collapse=\", \")} must have values provided. "))
+  }
+
 
   # bind census data
   data(census.data, package = "wnvdata")
   fit_data <- dplyr::left_join(wnvcases, census.data, by = c(match_variable, "year"))
+
 
   return(fit_data)
 }

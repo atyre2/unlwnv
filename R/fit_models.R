@@ -5,6 +5,10 @@
 #' @param case_type character type of case data
 #' @param case_variable character name of the case field in the case data
 #' @param match_variable character name of the field to match data on
+#' @param measure character vector of variables to use for lagging
+#' @param nUnits integer number of units to lag backwards
+#' @param startUnit integer unit to start lagging from
+#' @param unit character name of the variable identifying the lag units
 #'
 #' @details This function uses the rows in x to define the prediction
 #' targets for the models. There must be at least two fields, the 5 digit fips code
@@ -24,11 +28,19 @@
 fit_models <- function(x, path_2_case_data = here::here("data-raw/wnv_by_county.csv"),
                        case_type = c("neuro", "all"),
                        match_variable = "fips",
-                       case_variable = "cases"){
+                       case_variable = "cases",
+                       measure = NULL,
+                       nUnits = NULL,
+                       startUnit = NULL,
+                       unit = NULL){
   case_type = match.arg(case_type)
   fit_data <- assemble_data(x = x, path_2_case_data = path_2_case_data,
                             case_type = case_type,
                             match_variable = match_variable,
-                            case_variable = case_variable)
+                            case_variable = case_variable,
+                            measure = measure,
+                            nUnits = nUnits,
+                            startUnit = startUnit,
+                            unit = unit)
   return(list())
 }

@@ -32,5 +32,9 @@ test_that("data checks work", {
 test_that("return value valid", {
   expect_s3_class(assemble_data(x = sampledat,
                             path_2_case_data = here::here("data-raw/predictionsthrough2018.csv"),
-                            case_variable = "expected_cases"), "data.frame")
+                            case_variable = "expected_cases",
+                            measure = "ppt",
+                            nUnits = 24,
+                            startUnit = 7,
+                            unit = "months"), "data.frame")
 })

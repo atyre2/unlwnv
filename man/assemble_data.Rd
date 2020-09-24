@@ -9,7 +9,11 @@ assemble_data(
   path_2_case_data = here::here("data-raw/wnv_by_county.csv"),
   case_type = c("neuro", "all"),
   match_variable = "fips",
-  case_variable = "cases"
+  case_variable = "cases",
+  measure = NULL,
+  nUnits = NULL,
+  startUnit = NULL,
+  unit = NULL
 )
 }
 \arguments{
@@ -22,6 +26,14 @@ assemble_data(
 \item{match_variable}{character name of the field to match data on}
 
 \item{case_variable}{character name of the case field in the case data}
+
+\item{measure}{character vector of variables to use for lagging}
+
+\item{nUnits}{integer number of units to lag backwards}
+
+\item{startUnit}{integer unit to start lagging from}
+
+\item{unit}{character name of the variable identifying the lag units}
 }
 \value{
 a data.frame ready to estimate distributed lag models
