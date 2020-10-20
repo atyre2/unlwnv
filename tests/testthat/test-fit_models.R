@@ -1,6 +1,6 @@
 data(sampledat)
 test_that("data checks work", {
-  expect_error(fit_models(x = NULL), "x must be a data frame or tibble.")
+  expect_error(fit_models(x = NULL), "x must be a data frame")
   expect_error(fit_models(x = sampledat, path_2_case_data = "almostcertainlynotavalidfile"),
                "Please provide a valid path to the WNV case data.")
 })

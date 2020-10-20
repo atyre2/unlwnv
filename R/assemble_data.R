@@ -11,7 +11,7 @@
 #' @param case_variable character name of the case field in the case data
 #' @param match_variable character name of the field to match data on
 #' @param measure character vector of variables to use for lagging
-#' @param nUnits integer number of units to lag backwards
+#' @param nUnits integer vector of number of units to lag backwards
 #' @param startUnit integer unit to start lagging from
 #' @param unit character name of the variable identifying the lag units
 #'
@@ -76,8 +76,24 @@ assemble_data <- function(x, path_2_case_data = here::here("data-raw/wnv_by_coun
   # force to be data.frame
   conus_weather <- as.data.frame(conus_weather)
 
-  fit_data <- flmtools::lagData(conus_weather, fit_data,
-                                unit = unit, startUnit = startUnit,
-                                nUnits = nUnits, measure = measure)
+  if (length(nUnits)!=length(measure)){
+    if(length(nUnits)==1) nUnits <- rep(nUnits, times = length(measure))
+    else{
+      stop("nUnits must be length 1 or length(measure).")
+    }
+  }
+  tmp_data <- list()
+  for (i in seq_along(measure)){
+    tmp_data[[i]] <- flmtools::lagData(conus_weather, fit_data,
+                                  unit = unit, startUnit = startUnit,
+                                  nUnits = nUnits[i], measure = measure[i])
+  }
+  original_ncols <- ncol(fit_data)
+  lagMatName <- names(tmp_data[[1]])[original_ncols+2] # probably brittle
+  fit_data[,lagMatName] <- tmp_data[[1]][, lagMatName]
+  for (i in seq_along(measure)){
+    byMatName <- names(tmp_data[[i]])[original_ncols+1]
+    fit_data[, byMatName] <- tmp_data[[i]][, byMatName]
+  }
   return(fit_data)
 }
