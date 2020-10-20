@@ -26,13 +26,15 @@ assemble_data <- function(x, path_2_case_data = here::here("data-raw/wnv_by_coun
                           nUnits = NULL,
                           startUnit = NULL,
                           unit = NULL){
-  if(is.null(x) | !(is.data.frame(x) | tibble::is_tibble(x))){
-    stop("x must be a data frame or tibble.")
+  if(is.null(x) | !is.data.frame(x) ){
+    stop("x must be a data frame")
   }
   if(!file.exists(path_2_case_data)){
     stop("Please provide a valid path to the WNV case data.")
   } else {
     wnvcases <- readr::read_csv(path_2_case_data)
+    # force to be a dataframe
+    wnvcases <- as.data.frame(wnvcases)
     check_match <- match(match_variable,names(wnvcases))
     if(any(is.na(check_match))){
       stop(sprintf("match variable(s) %s not found in file %s",
@@ -65,6 +67,17 @@ assemble_data <- function(x, path_2_case_data = here::here("data-raw/wnv_by_coun
   data(census.data, package = "wnvdata")
   fit_data <- dplyr::left_join(wnvcases, census.data, by = c(match_variable, "year"))
 
+  # make lags
+  data(conus_weather, package = "wnvdata")
+  # rename location -> Location for flmtools
+  conus_weather <- dplyr::rename(conus_weather, Location = location)
+  fit_data <- dplyr::rename(fit_data, Location = location.x)
+  fit_data <- dplyr::select(fit_data, -location.y)
+  # force to be data.frame
+  conus_weather <- as.data.frame(conus_weather)
 
+  fit_data <- flmtools::lagData(conus_weather, fit_data,
+                                unit = unit, startUnit = startUnit,
+                                nUnits = nUnits, measure = measure)
   return(fit_data)
 }
