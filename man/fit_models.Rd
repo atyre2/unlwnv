@@ -13,7 +13,8 @@ fit_models(
   measure = NULL,
   nUnits = NULL,
   startUnit = NULL,
-  unit = NULL
+  unit = NULL,
+  models = NULL
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ fit_models(
 \item{startUnit}{integer unit to start lagging from}
 
 \item{unit}{character name of the variable identifying the lag units}
+
+\item{models}{list of formulas for to use. No checks are performed to ensure the formulas are consistent with other arguments.}
 }
 \value{
 a list of containing predicted cases for the target in the format expected by \code{DFMIP}

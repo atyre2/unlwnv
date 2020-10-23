@@ -14,3 +14,11 @@ test_that("return value valid", {
                          unit = "month.num"),
               "list")
 })
+
+test_fits <- fit_models(x = sampledat[1:10,],
+                           path_2_case_data = here::here("data-raw/predictionsthrough2018.csv"),
+                           case_variable = "expected_cases",
+                           measure = c("precip", "mean_temp", "precip"),
+                           nUnits = c(24, 24, 18),
+                           startUnit = 7,
+                           unit = "month.num")

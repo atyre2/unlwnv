@@ -29,7 +29,7 @@ assemble_data(
 
 \item{measure}{character vector of variables to use for lagging}
 
-\item{nUnits}{integer number of units to lag backwards}
+\item{nUnits}{integer vector of number of units to lag backwards}
 
 \item{startUnit}{integer unit to start lagging from}
 

@@ -95,5 +95,8 @@ assemble_data <- function(x, path_2_case_data = here::here("data-raw/wnv_by_coun
     byMatName <- names(tmp_data[[i]])[original_ncols+1]
     fit_data[, byMatName] <- tmp_data[[i]][, byMatName]
   }
+
+  # Calculate CI
+
   return(fit_data)
 }
